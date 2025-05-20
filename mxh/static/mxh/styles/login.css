@@ -1,0 +1,97 @@
+* {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+  }
+
+  /* Logo và tiêu đề lên trên bên trái */
+  .logo {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  .logo img {
+    width: 40px;
+    margin-right: 10px;
+    border-radius: 8px;
+  }
+
+  .logo span {
+    font-weight: 600;
+    font-size: 20px;
+    color: #222;
+  }
+
+  .login-container {
+    text-align: center;
+  }
+
+  .login-box {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    width: 360px;
+  }
+
+  h2 {
+    margin-bottom: 30px;
+    color: #222;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: rgba(145, 198, 225, 0.4);
+  }
+
+  button {
+    padding: 12px;
+    background-color: #150AA1;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0031c9;
+  }
+
+  @media (max-width: 400px) {
+    .login-box {
+      width: 90%;
+      padding: 30px 20px;
+    }
+  }

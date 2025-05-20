@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phê duyệt đề xuất</title>
+    <link rel="stylesheet" href="{% static 'mxh/styles/proposals.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+        <h2 class="page-title mb-4"><i class="fas fa-check-circle"></i> Phê duyệt đề xuất</h2>
+
+        <p><strong><i class="fas fa-tag"></i> Tiêu đề:</strong> {{ proposal.title }}</p>
+        <p><strong><i class="fas fa-user"></i> Người gửi:</strong> {{ proposal.proposer.get_full_name }}</p>
+        <p><strong><i class="fas fa-building"></i> Phòng nhận:</strong> {{ proposal.to_department.name }}</p>
+        <p><strong><i class="fas fa-building"></i> Phòng gửi:</strong> {{ proposal.proposer.department.name }}</p>
+
+        <p><strong><i class="fas fa-align-left"></i> Mô tả:</strong><br> {{ proposal.description|linebreaks }}</p>
+
+        {% if proposal.image %}
+            <p><strong><i class="fas fa-image"></i> Ảnh đính kèm:</strong><br>
+                <img src="{{ proposal.image.url }}" class="img-thumbnail" width="300" style="border-radius: 8px; margin-top: 10px;">
+            </p>
+        {% endif %}
+
+        {% if proposal.document %}
+            <p><strong><i class="fas fa-file-alt"></i> Tệp đính kèm:</strong>
+                <a href="{{ proposal.document.url }}" target="_blank" class="btn-download">
+                    <i class="fas fa-download"></i> Tải xuống
+                </a>
+            </p>
+        {% endif %}
+
+        <hr class="my-4">
+
+        <form method="post" class="proposal-form">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div class="form-error">{{ field.errors|striptags }}</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div class="button-group mt-4">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-check-circle"></i> Lưu quyết định
+        </button>
+        <a href="{% url 'incoming_proposals' %}" class="btn btn-secondary">
+            <i class="fas fa-times-circle"></i> Hủy bỏ
+        </a>
+    </div>
+</form>
+</div>
+
+</body>
+</html>

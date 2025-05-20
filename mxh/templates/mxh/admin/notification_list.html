@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý thông báo - Lotteria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'mxh/styles/home.css' %}">
+    <link rel="stylesheet" href="{% static 'mxh/styles/admin.css' %}">
+    <script src="{% static 'mxh/script/admin.js' %}"></script>
+</head>
+<body>
+    {% include 'mxh/includes/Header_admin.html' %}
+
+    <div class="main">
+        {% include 'mxh/includes/Sidebar_admin.html' %}
+
+        <div class="content">
+            <div class="notification-container">
+                <div class="notification-header">
+                    <h2>Danh sách thông báo</h2>
+                    <a href="{% url 'admin_notification_create' %}" class="create-btn">
+                        <i class="fas fa-plus"></i> Tạo mới
+                    </a>
+                </div>
+
+                <div class="notification-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã thông báo</th>
+                                <th>Tiêu đề</th>
+                                <th>Ngày tạo</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for notification in notifications %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ notification.code }}</td>
+                                <td>{{ notification.title }}</td>
+                                <td>{{ notification.created_at|date:"d/m/Y" }}</td>
+                                <td class="actions">
+                                    <a href="{% url 'admin_notification_edit' notification.id %}" class="edit-btn" title="Chỉnh sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="delete-btn" title="Xóa" onclick="confirmDelete('{{ notification.id }}', '{{ notification.title }}')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="empty-message">Không có thông báo nào</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <div id="delete-modal" class="modal">
+    <div class="modal-content">
+        <h3>Xóa thông báo</h3>
+        <p id="delete-message">
+            Bạn có chắc muốn xóa thông báo <strong id="delete-title">...</strong> này không?
+        </p>
+        <div class="modal-actions">
+            <button class="btnCancel" onclick="closeModal()">Hủy</button>
+            <form id="delete-form" method="POST" action="">
+                {% csrf_token %}
+                <button type="submit" class="confirm-btn">Lưu</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

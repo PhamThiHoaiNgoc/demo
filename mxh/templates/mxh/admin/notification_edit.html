@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa thông báo - Lotteria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'mxh/styles/home.css' %}">
+    <link rel="stylesheet" href="{% static 'mxh/styles/admin.css' %}">
+    <script src="{% static 'mxh/script/admin.js' %}"></script>
+
+
+</head>
+<body>
+    {% include 'mxh/includes/Header_admin.html' %}
+
+    <div class="main">
+        {% include 'mxh/includes/Sidebar_admin.html' %}
+
+        <div class="content">
+            <div class="form-container">
+                <div class="form-header">
+                    <div class="form-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h2>CHỈNH SỬA THÔNG BÁO</h2>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="title">Tiêu đề:</label>
+                        <input type="text" id="title" name="title" class="form-control" value="{{ notification.title }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">Nội dung:</label>
+                        <textarea id="content" name="content" class="form-control" rows="5" required>{{ notification.content }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gửi đến:</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="recipient_type" value="all" {% if notification.is_global %}checked{% endif %} onchange="toggleDepartments()">
+                                Tất cả nhân viên
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="recipient_type" value="department" {% if not notification.is_global %}checked{% endif %} onchange="toggleDepartments()">
+                                Chọn bộ phận
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="departments-container" style="display: {% if notification.is_global %}none{% else %}block{% endif %};">
+                        <label>Chọn bộ phận:</label>
+                        <div class="checkbox-group">
+                            {% for department in departments %}
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="departments" value="{{ department.id }}"
+                                {% if department.id in selected_departments %}checked{% endif %}>
+                                {{ department.name }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attachment">Ảnh đính kèm:</label>
+                        <div class="file-upload">
+                            <input type="file" id="attachment" name="attachment" accept="image/*">
+                            <label for="attachment" class="file-label">
+                                <i class="fas fa-plus"></i>
+                                <span>Chọn tệp</span>
+                            </label>
+                            <div id="file-name" class="file-name">
+                                {% if notification.image_url %}
+                                    {% with notification.image_url|slice:"7:" as image_path %}
+                                        {{ image_path|slice:":-1" }}
+                                    {% endwith %}
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        {% if notification.image_url %}
+                        <div class="current-attachment">
+                            <p>Ảnh hiện tại:</p>
+                            <img src="{{ notification.image_url }}" alt="Ảnh đính kèm" class="attachment-preview">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="remove_image"> Xóa ảnh
+                            </label>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="{% url 'admin_notifications' %}" class="cancel-btn">Hủy</a>
+                        <button type="submit" class="save-btn">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

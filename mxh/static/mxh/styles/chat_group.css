@@ -1,0 +1,167 @@
+.chat-container {
+    display: flex;
+    height: 100%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.chat-sidebar {
+    width: 300px;
+    border-right: 1px solid #eee;
+    background-color: #f9f9f9;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.chat-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.btn-chat,
+.btn-group {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 20px;
+    background-color: #eee;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-chat.active,
+.btn-group.active {
+    background-color: #ff7e5f;
+    color: #fff;
+}
+
+.search-box input {
+    padding: 8px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.chat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-list li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.create-group {
+    margin-top: auto;
+    text-align: center;
+}
+
+.create-group a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #fdfdfd;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 10px;
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 70%;
+}
+
+.message-sent {
+    align-self: flex-end;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message-received {
+    align-self: flex-start;
+}
+
+.message img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.message-content {
+    background-color: #f1f1f1;
+    padding: 10px 14px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+.message-sent .message-content {
+    background-color: #d4f8c4;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #ddd;
+    margin-top: 12px;
+}
+
+.chat-input input[type="text"] {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.chat-input button {
+    background-color: #6f42c1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}

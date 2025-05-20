@@ -1,0 +1,81 @@
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f7f7f7;
+        }
+        .main {
+            display: flex;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .input-group input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background-color: #db6c70;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px 0 0 4px;
+        }
+        .input-group button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+        }
+        .input-group button:hover {
+            background-color: #218838;
+        }
+        .input-group input::placeholder {
+            color: white;
+            opacity: 1; /* Đảm bảo không bị mờ */
+        }
+        ul.task-list {
+            list-style: none;
+            padding: 0;
+        }
+        ul.task-list li {
+            background-color: white;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .task-left {
+            display: flex;
+            align-items: center;
+        }
+        .task-left input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .task-left .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .btn-delete {
+            background-color: transparent;
+            border: none;
+            color: red;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            color: darkred;
+        }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ profile_user.username }} - Lotteria</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'mxh/styles/home.css' %}">
+  <link rel="stylesheet" href="{% static 'mxh/styles/profile.css' %}">
+  <script src="{% static 'mxh/script/profile.js' %}"></script>
+</head>
+
+<body>
+  {% include 'mxh/includes/header.html' %}
+
+  <div class="main">
+    {% include 'mxh/includes/sidebar.html' %}
+      <div class="content">
+          <div class="profile-banner">
+        <img src="https://cdn2.fptshop.com.vn/unsafe/Uploads/images/tin-tuc/177485/Originals/anh-bia-hoa-dep%20(14).jpg"
+          alt="Cover" class="cover-image">
+        <div class="profile-header">
+          <div class="profile-header-content">
+            <div class="profile-info">
+              <div class="profile-name">
+                <h2>{{ profile_user.username }}</h2>
+                <p>{{ post_count }} bài đăng</p>
+              </div>
+            </div>
+            <div class="tab-container">
+              <button class="tab-button active" id="posts-tab">Bài viết của tôi</button>
+              <button class="tab-button" id="info-tab">Thông tin cá nhân</button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="profile-content" id="posts-content">
+          <div class="post-list">
+            {% for post in user_posts %}
+            <div class="post-card">
+              <div class="post-header">
+                <img
+                  src="{% if profile_user.avatar_url %}{{ profile_user.avatar_url }}{% else %}{% static 'mxh/images/avatar.png' %}{% endif %}"
+                  class="avatar-small">
+                <div class="post-author">
+                  <span class="author-name">{{ profile_user.username }} </span>
+                  <span class="post-date">{{ post.created_at|date:"F d" }}</span>
+                </div>
+                <div class="post-menu">
+                  <button class="menu-button">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a href="#" class="menu-item edit-post">
+                      <i class="fas fa-edit"></i> Chỉnh sửa bài viết
+                    </a>
+                    <a href="#" class="menu-item delete-post">
+                      <i class="fas fa-trash"></i> Xóa bài viết
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>{{ post.content }}</p>
+                {% if post.avatar_url %}
+                <img src="{{ post.avatar_url }}" class="post-image">
+                {% endif %}
+              </div>
+              <div class="post-actions">
+                <button class="action-button">
+                  <i class="far fa-heart"></i>
+                  <span>{{ post.like_set.count }}</span>
+                </button>
+                <button class="action-button">
+                  <i class="far fa-comment"></i>
+                  <span>{{ post.comment_set.count }}</span>
+                </button>
+              </div>
+            </div>
+            {% empty %}
+            <p>Chưa có bài viết nào.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="profile-content hidden" id="info-content">
+          <div class="user-info-card">
+            <div class="user-avatar-large">
+              <img
+                src="{% if profile_user.avatar_url %}{{ profile_user.avatar_url }}{% else %}{% static 'mxh/images/avatar.png' %}{% endif %}"
+                alt="Avatar">
+            </div>
+            <h2 class="user-fullname">{{ profile_user.username }}</h2>
+
+            <div class="info-grid">
+              <div class="info-row">
+                <div class="info-label">Số điện thoại</div>
+                <div class="info-value">{{ profile_user.phone|default:"Chưa cập nhật" }}</div>
+              </div>
+              <div class="info-row">
+                <div class="info-label">Email</div>
+                <div class="info-value">{{ profile_user.email }}</div>
+              </div>
+              <div class="info-row">
+                <div class="info-label">Ngày sinh</div>
+                <div class="info-value">{{ profile_user.birth_date|date:"d/m/Y"|default:"Chưa cập nhật" }}</div>
+              </div>
+              <div class="info-row">
+                <div class="info-label">Giới tính</div>
+                <div class="info-value">
+                  {% if profile_user.gender == 'male' %}Nam{% elif profile_user.gender == 'female' %}Nữ{% else %}Chưa
+                  rõ{% endif %}
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-label">Chức vụ</div>
+                <div class="info-value">
+                  {% if profile_user.role == 'manager' %}Quản lý{% elif profile_user.role == 'admin' %}Quản trị viên{%
+                  else %}Nhân viên{% endif %}
+                </div>
+              </div>
+              <div class="info-row">
+                <div class="info-label">Bộ phận</div>
+                <div class="info-value">{{ profile_user.department.name|default:"Chưa cập nhật" }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="edit-post-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Sửa bài viết</h2>
+          <button class="close-button"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="edit-post-user">
+            <img
+              src="{% if profile_user.avatar_url %}{{ profile_user.avatar_url }}{% else %}{% static 'mxh/images/avatar.png' %}{% endif %}"
+              class="avatar-small">
+            <span>{{ profile_user.username }}</span>
+          </div>
+          <textarea class="post-textarea">Nội dung bài viết</textarea>
+          <div class="post-image-preview hidden">
+            <img src="" alt="Post image">
+            <button class="remove-image-button"><i class="fas fa-times"></i></button>
+          </div>
+          <div class="modal-actions">
+            <button class="add-image-button">
+              <i class="fas fa-image"></i>
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="post-button">Đăng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>

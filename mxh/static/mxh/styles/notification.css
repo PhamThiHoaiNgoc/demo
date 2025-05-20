@@ -1,0 +1,159 @@
+.tab {
+    background-color: white;
+    border-radius: 60px;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+    font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+    align-items: center; /* cho thẳng hàng */
+    margin-bottom: 20px;
+}
+
+.tab.active {
+    background-color: #D85B53;
+    color: white;
+}
+
+.tab:not(.active) {
+    color: #545454;
+    border: 1px solid #000000;
+}
+
+.notification {
+    background-color: #096973;
+    color: #E0F920;
+    border-radius: 50%;
+    padding: 2px 6px;
+    position: absolute;
+    top: -5px;
+    right: -6px;
+    font-size: 13px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.content {
+    border-radius: 5px;
+}
+
+.profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+
+.profile.read {
+    background-color: #ffffff;
+}
+
+.profile.unread {
+    background-color: #0969731A;
+}
+
+
+.profile-pic {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.message {
+    font-size: 14px;
+    color: #666;
+}
+
+.info {
+    flex-grow: 1;
+}
+
+.time {
+    position: absolute;
+    right: 15px;
+    color: #999;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+.profile:hover {
+    background-color: #f0f0f0;
+}
+
+.tab:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.company-details {
+    background-color: #0969731A;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.company-details h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.company-details p {
+    font-size: 16px;
+    color: #555;
+    margin-top: 20px;
+}
+
+.company-details img {
+    margin: 50px auto 15px auto;
+    max-width: 70%;
+    display: block;
+}
+
+.title-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-date .date {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+
+
+
+
+
+
+
+

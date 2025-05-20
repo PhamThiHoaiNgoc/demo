@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo công việc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'mxh/styles/create_task.css' %}">
+</head>
+<body>
+
+<div class="task-wrapper">
+    <div class="task-form-container">
+        <div class="task-form-header">
+            <h2>Tạo công việc từ đề xuất</h2>
+            <p class="proposal-title">Đề xuất: <strong>{{ proposal.title }}</strong></p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="task-form-actions">
+                <button type="submit" class="btn btn-primary">Tạo công việc</button>
+                <a href="{% url 'incoming_proposals' %}" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

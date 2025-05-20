@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- templates/mxh/includes/header.html -->
+<div class="header">
+    <div class="logo-block">
+      <img src="https://res.cloudinary.com/dkeeovlbv/image/upload/v1744526525/vwakjgyc2qavvcoycnqw.jpg" alt="Logo">
+      <div class="logo-text">LOTTERIA</div>
+    </div>
+
+    <!-- Lớp nền mờ (hiện ra khi tìm kiếm) -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Thanh tìm kiếm và kết quả (luôn nằm trên lớp mờ) -->
+    <div class="search-wrapper">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Tìm kiếm"
+          oninput="searchUsers()"
+        />
+      </div>
+      <div class="search-results" id="search-results">
+        <!-- Kết quả hiển thị ở đây -->
+      </div>
+    </div>
+    <div class="user-info">
+      <span>Admin</span>
+      <img src="https://i.pravatar.cc/150?img=1" alt="Avatar">
+      <button class="logout-btn" title="Đăng xuất">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </div>
+  </div>
+
+</body>
+</html>

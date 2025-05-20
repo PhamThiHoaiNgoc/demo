@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo bài viết</title>
+    <link rel="stylesheet" href="{% static 'mxh/styles/create_post.css' %}">
+</head>
+<body>
+{% block content %}
+<div class="create-post-container">
+  <div class="create-post-box">
+    <div class="close-wrapper">
+       <button class="close-btn" onclick="window.history.back()">✖</button>
+    </div>
+    <div class="create-post-header">
+      <h2>Tạo bài viết</h2>
+    </div>
+    <div class="d-flex align-items-center mb-3">
+        <img src="{{ request.user.avatar_url|default:'#' }}"
+         alt="Avatar"
+         class="me-2"
+         width="50" height="50"
+         style="border-radius: 50%; object-fit: cover;">
+        <strong>{{ request.user.username }}</strong>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-fields">
+        {{ form.as_p }}
+      </div>
+      <div class="close-wrapper">
+        <button type="submit" class="send-btn">Đăng bài</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+</body>
+</html>

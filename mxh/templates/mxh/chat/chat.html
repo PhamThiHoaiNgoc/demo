@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{% static 'mxh/styles/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'mxh/styles/Home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+{% include 'mxh/includes/Header.html' %}
+<div class="main">
+    {% include 'mxh/includes/Sidebar.html' %}
+    <div class="content">
+        <div class="chat-container">
+            <!-- Sidebar danh sách đoạn chat -->
+            <div class="chat-sidebar">
+                <div class="chat-tabs">
+                    <a href="{% url 'chat' %}">
+                        <button class="btn-chat">Đoạn chat</button>
+                    </a>
+                    <a href="{% url 'group_chat_list' %}">
+                        <button class="btn-group active">Nhóm</button>
+                    </a>
+                </div>
+                <div class="chat-list">
+                    <div class="chat-item">
+                        <img src="{{ other_user.avatar_url }}" class="chat-avatar" />
+                        <div class="chat-info">
+                            <div class="chat-user">{{ other_user.username }}</div>
+                        </div>
+                        <div class="chat-time">{{ chat.created_at|date:"M d" }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Khung chat chính -->
+            <div class="chat-main">
+                <div class="chat-header">
+                    <img src="{{ other_user.avatar_url }}" class="chat-avatar" />
+                    <span class="chat-username">{{ other_user.username }}</span>
+                </div>
+
+                <div class="chat-messages" id="chat-box">
+                    {% for message in messages %}
+                    <div class="chat-message {% if message.sender.id == user.id %}sent{% else %}received{% endif %}">
+                        <p>{{ message.content }}</p>
+                        <span class="chat-time">{{ message.created_at|time:"H:i" }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <form class="chat-input" method="post" action="{% url 'add_message' chat.id %}">
+                    {% csrf_token %}
+                    <input type="text" name="content" placeholder="Soạn tin nhắn..." required />
+                    <button type="submit">Gửi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

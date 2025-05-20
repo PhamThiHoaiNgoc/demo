@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{ notification.title }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'mxh/styles/home.css' %}">
+  <link rel="stylesheet" href="{% static 'mxh/styles/notification.css' %}">
+</head>
+
+<body>
+  {% include 'mxh/includes/Header.html' %}
+  <div class="main">
+    {% include 'mxh/includes/Sidebar.html' %}
+
+    <div class="content">
+      <div class="tabs">
+        <div class="tab" onclick="location.href='{% url 'notification_view' %}'">
+          Cá nhân <span class="notification">{{ personal_unread_count }}</span>
+        </div>
+        <div class="tab active" onclick="location.href='{% url 'notification_company' %}'">
+          Công ty <span class="notification">{{ company_unread_count }}</span>
+        </div>
+      </div>
+
+      <div class="company-details">
+        <div class="title-date">
+          <h2>{{ notification.title }}</h2>
+          <p class="date"><strong>Ngày: </strong>{{ notification.created_at|date:"d/m/Y" }}</p>
+        </div>
+
+        <p>{{ notification.content }}</p>
+
+        {% if notification.image_url %}
+        <img src="{{ notification.image_url }}" alt="Notification Image">
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

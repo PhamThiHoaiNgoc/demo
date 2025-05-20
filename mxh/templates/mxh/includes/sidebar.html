@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- templates/mxh/includes/sidebar.html -->
+<div class="sidebar">
+    <nav>
+        <a href="{% url 'user_home' %}"><i class="fas fa-home"></i> Trang chủ</a>
+        <a href="{% url 'notification_view' %}" class="notification-icon">
+            <i class="fas fa-bell"></i>
+                {% if personal_unread_count > 0 or company_unread_count > 0 %}
+                    <span class="notification-dot"></span>
+                {% endif %}
+                Thông báo
+        </a>
+        <a href="{% url 'chat' %}">
+            <i class="fas fa-comment-dots"></i> Tin nhắn
+        </a>
+        <a href="{% url 'task_view' %}"><i class="fas fa-briefcase"></i> Công việc</a>
+        <a href="{% url 'user_profile' username=user.username %}"><i class="fas fa-user-circle"></i> Hồ sơ cá nhân</a>
+    </nav>
+</div>
+
+</body>
+</html>

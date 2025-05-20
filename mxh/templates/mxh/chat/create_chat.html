@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo nhóm</title>
+    <link rel="stylesheet" href="{% static 'mxh/styles/add_members.css' %}">
+</head>
+<body>
+<div class="overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <button class="cancel-btn" onclick="window.history.back()">Hủy</button>
+            <h2>Nhóm mới</h2>
+            <button class="create-btn" type="submit" form="create-group-form">Tạo</button>
+        </div>
+
+        <form method="POST" id="create-group-form">
+            {% csrf_token %}
+            <input type="text" name="group_name" placeholder="Tên nhóm" class="group-name-input" required>
+
+            <input type="text" placeholder="Tìm kiếm thành viên.." class="search-input">
+
+            <div class="selected-users">
+                <!-- Render các user đã chọn ở đây nếu muốn -->
+            </div>
+
+            <p class="suggestion-title">Gợi ý</p>
+
+            <div class="user-list">
+                {% for user in users %}
+                <label class="user-item">
+                    <img src="{{ user.avatar_url }}" alt="Avatar">
+                    <span class="username">{{ user.username }}</span>
+                    <input type="checkbox" name="members" value="{{ user.id }}">
+                    <span class="custom-checkmark"></span>
+                </label>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

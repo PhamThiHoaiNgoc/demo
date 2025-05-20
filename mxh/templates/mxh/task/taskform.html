@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'mxh/styles/taskform.css' %}">
+    <title>Giao Việc</title>
+</head>
+<body>
+    <div class="form-container">
+        <span class="close-btn" onclick="window.location.href='/task';">&times;</span>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Giao việc</button>
+        </form>
+    </div>
+</body>
+</html>

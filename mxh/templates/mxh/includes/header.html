@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'mxh/script/Home.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'mxh/styles/search.css' %}">
+</head>
+<body>
+<div class="header">
+    <div class="logo-block">
+      <img src="https://res.cloudinary.com/dkeeovlbv/image/upload/v1744526525/vwakjgyc2qavvcoycnqw.jpg" alt="Logo">
+      <div class="logo-text">LOTTERIA</div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="search-wrapper">
+        <div class="search-container">
+            <form method="GET" action="{% url 'search_employees' %}" id="search-form">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="q" id="search-input" placeholder="Tìm kiếm..." value="{{ query }}">
+                </div>
+            </form>
+
+            <div class="search-results-container" id="search-results-popup" {% if not query %}style="display: none;"{% endif %}>
+                {% if users %}
+                {% for user in users %}
+                <a href="{% url 'start_chat' user.id %}" class="search-result-item-link"  style="text-decoration: none;">
+                    <div class="search-result-item">
+                        <div class="user-info">
+                            <div class="avatar">
+                                {% if user.avatar_url %}
+                                    <img src="{{ user.avatar_url }}" alt="{{ user.username }}">
+                                {% else %}
+                                    <div class="default-avatar">
+                                        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="user-name">{{ user.first_name }} {{ user.last_name }}</div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+
+                <div class="view-all">
+                    <a href="#">Xem tất cả</a>
+                </div>
+                {% else %}
+                <div class="no-results">
+                    Không tìm thấy nhân viên!
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="user-info1">
+      <span>{{ request.user.username }}</span>
+      <img src="{{ request.user.avatar_url|default:'#' }}" alt="Avatar">
+      <button class="logout-btn" title="Đăng xuất">
+          <a href="{% url 'login' %}"><i class="fas fa-sign-out-alt"></i></a>
+      </button>
+    </div>
+
+  </div>
+
+</body>
+</html>

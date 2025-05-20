@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <link rel="stylesheet" href="{% static 'mxh/styles/task.css' %}">
+     <script src="{% static 'mxh/script/task.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+  <link rel="stylesheet" href="{% static 'mxh/styles/home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+{% include 'mxh/includes/Header.html' %}
+
+<div class="main">
+  {% include 'mxh/includes/Sidebar.html' %}
+
+      <div class="content">
+          <div class="container">
+        <!-- Header Buttons -->
+      <div class="header-buttons">
+    <!-- Bên trái: Phân việc + To-do list -->
+   <div class="left-buttons">
+    <button class="btn btn-assign">Phân việc</button>
+    <button class="btn btn-todo" onclick="window.location.href='/task/create_todo';">To-do list</button>
+
+    {% if request.user.role == 'manager' %}
+      <button class="btn btn-secondary" onclick="window.location.href='/task/proposal/create';">
+            <i class="fas fa-lightbulb"></i> Tạo đề xuất
+        </button>
+        <button class="btn btn-secondary" onclick="window.location.href='/task/proposal/my';">
+            <i class="fas fa-paper-plane"></i> Đề xuất đã gửi
+        </button>
+        <button class="btn btn-secondary" onclick="window.location.href='/task/proposal/incoming/';">
+            <i class="fas fa-check-circle"></i> Cần phê duyệt
+        </button>
+    {% endif %}
+</div>
+
+
+   {% if request.user.role == 'manager' %}
+    <div class="right-button">
+        <button class="add-task-button" onclick="window.location.href='/task/create';">
+            Giao công việc
+        </button>
+
+    </div>
+    {% endif %}
+
+</div>
+        <!-- Tabs -->
+        <div class="task-tabs">
+            <div class="tab active" onclick="showTab('pending')">
+                <strong>Chưa xong: {{ pending_tasks|length }}</strong>
+            </div>
+            <div class="tab" onclick="showTab('completed')">
+                <strong>Đã xong: {{ completed_tasks|length }}</strong>
+            </div>
+        </div>
+        <!-- Pending Tasks -->
+        <div id="pending-tasks" class="task-list active">
+            {% for task in pending_tasks %}
+            <div class="task-item">
+                 <div class="task-date">{{ task.deadline|date:"d/m" }}</div>
+                <form method="POST" action="{% url 'change_task_status' task.id %}">
+                    {% csrf_token %}
+                    <input type="checkbox" name="status" value="completed" onclick="this.form.submit()" />
+                </form>
+                <div class="task-info">
+                    <img class="avatar" src="{{ task.assigned_by.avatar_url }}" alt="{{ task.assigned_by.username }}">
+                    <div class="task-details">
+                        <div class="task-name"><strong>{{ task.task_name }}</strong></div>
+                        <div class="desc">{{ task.description }}</div>
+                        <div class="assigned-by">Người giao: {{ task.assigned_by.username }}</div>
+                        <div class="assigned-to">
+                           Người nhận:
+                            {% for user in task.assigned_to %}
+                                {{ user.username }}
+                            {% endfor %}
+                        </div>
+                        {% if task.image %}
+                            <div class="task-file">
+                                Ảnh: <br>
+                                <img src="{{ task.image.url }}" alt="Ảnh công việc" style="max-width: 150px; margin-top: 5px;">
+                            </div>
+                        {% endif %}
+
+                        {% if task.document %}
+                            <div class="task-file">
+                                Tài liệu: <a href="{{ task.document.url }}" target="_blank">Tải tài liệu</a>
+                            </div>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+                {% if task.can_delete %}
+               <form method="POST" action="{% url 'delete_task' task.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn" title="Xóa công việc">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+
+                {% endif %}
+
+            </div>
+            {% empty %}
+            <p>Không có công việc nào.</p>
+            {% endfor %}
+        </div>
+        <!-- Completed Tasks -->
+        <div id="completed-tasks" class="task-list" style="display: none;">
+            {% for task in completed_tasks %}
+            <div class="task-item completed">
+                 <div class="task-date">{{ task.deadline|date:"d/m" }}</div>
+                <input type="checkbox" checked disabled />
+                <div class="task-info">
+                    <img class="avatar" src="{{ task.assigned_by.avatar_url }}" alt="{{ task.assigned_by.username }}">
+                    <div class="task-details">
+                        <div class="task-name"><s><strong>{{ task.task_name }}</strong></s></div>
+                        <div class="desc"><s>{{ task.description }}</s></div>
+                        <div class="assigned-by">
+                            Giao bởi: <s>{{ task.assigned_by.username }}</s>
+                        </div>
+                        <div class="assigned-to">
+                            Người nhận:
+                            {% for user in task.assigned_to %}
+                                <s>{{ user.username }}</s>
+                            {% endfor %}
+                        </div>
+                        {% if task.image %}
+                            <div class="task-file">
+                                <s>Ảnh minh họa:</s><br>
+                                <img src="{{ task.image.url }}" alt="Ảnh công việc" style="max-width: 150px; margin-top: 5px;">
+                            </div>
+                        {% endif %}
+
+                        {% if task.document %}
+                            <div class="task-file">
+                                <s>Tài liệu: <a href="{{ task.document.url }}" target="_blank">Tải tài liệu</a></s>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if task.can_delete %}
+                <form method="POST" action="{% url 'delete_task' task.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn" title="Xóa công việc">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+                {% endif %}
+
+            </div>
+            {% empty %}
+            <p>Không có công việc đã hoàn thành.</p>
+            {% endfor %}
+        </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

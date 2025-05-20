@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Đề xuất gửi đến</title>
+    <link rel="stylesheet" href="{% static 'mxh/styles/proposals.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'task_view' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Quay lại danh sách công việc
+        </a>
+
+        <h2 class="page-title">📨 Đề xuất gửi đến bộ phận bạn</h2>
+
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Người gửi</th>
+                    <th>Tiêu đề</th>
+                    <th>Ngày gửi</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                    <th>Giao việc</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in proposals %}
+                <tr>
+                    <td>{{ p.proposer.username }}</td>
+                    <td>{{ p.title }}</td>
+                    <td>{{ p.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        {% if p.status == 'pending' %}
+                            <span class="badge badge-warning">Chờ duyệt</span>
+                        {% elif p.status == 'approved' %}
+                            <span class="badge badge-success">Đã duyệt</span>
+                        {% elif p.status == 'rejected' %}
+                            <span class="badge badge-danger">Từ chối</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'review_proposal' p.id %}" class="btn-view">
+                            <i class="fas fa-eye"></i> Xem & xử lý
+                        </a>
+                    </td>
+                    <td>
+                        {% if p.status == 'approved' %}
+                            <a href="{% url 'create_task_from_proposal' p.id %}" class="btn btn-success btn-sm">
+                                <i class="fas fa-tasks"></i> Giao việc
+                            </a>
+                        {% else %}
+                            <button class="btn btn-secondary btn-sm" disabled>Không thể giao</button>
+                        {% endif %}
+
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center">Không có đề xuất nào.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

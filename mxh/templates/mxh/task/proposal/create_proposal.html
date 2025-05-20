@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'mxh/styles/taskform.css' %}">
+    <title>Gửi đề xuất</title>
+</head>
+<body>
+<div class="form-container">
+    <h3>Gửi đề xuất công việc</h3>
+        <span class="close-btn" onclick="window.location.href='/task';">&times;</span>
+        <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Gửi đề xuất</button>
+    </form>
+</div>
+
+</body>
+</html>

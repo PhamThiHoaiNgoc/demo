@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Thông báo Cá nhân</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'mxh/styles/home.css' %}">
+  <link rel="stylesheet" href="{% static 'mxh/styles/notification.css' %}">
+</head>
+
+<body>
+  {% include 'mxh/includes/Header.html' %}
+  <div class="main">
+    {% include 'mxh/includes/Sidebar.html' %}
+
+    <div class="content">
+      <div class="tabs">
+        <div class="tab active" onclick="location.href='{% url 'notification_view' %}'">
+          Cá nhân <span class="notification">{{ personal_unread_count }}</span>
+        </div>
+        <div class="tab" onclick="location.href='{% url 'notification_company' %}'">
+          Công ty <span class="notification">{{ company_unread_count }}</span>
+        </div>
+      </div>
+
+      <div id="personal-content">
+        {% for notification in personal_notifications %}
+        <div class="profile {% if notification.is_read %}read{% else %}unread{% endif %}">
+          <div class="avatar">
+            {% if notification.sender and notification.sender.avatar_url %}
+            <img src="{{ notification.sender.avatar_url }}" alt="Avatar" class="avatar-img">
+            {% else %}
+            <img src="{% static 'mxh/images/default_avatar.png' %}" alt="Avatar mặc định" class="avatar-img">
+            {% endif %}
+
+          </div>
+
+          <div class="info">
+            <p class="name">{{ notification.sender.username }}</p>
+            <p>{{ notification.content }}</p>
+          </div>
+          <p class="time">{{ notification.created_at|date:'d/m/Y' }}</p>
+        </div>
+        {% empty %}
+        <p>Không có thông báo cá nhân nào.</p>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

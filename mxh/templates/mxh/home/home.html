@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Trang Chủ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="{% static 'mxh/styles/Home.css' %}">
+  <script src="{% static 'mxh/script/Home.js' %}"></script>
+</head>
+
+<body>
+  {% include 'mxh/includes/Header.html' %}
+  <div class="main">
+    {% include 'mxh/includes/Sidebar.html' %}
+
+    <div class="content">
+      <!-- Create a new post -->
+      <div class="post-box">
+        <div class="create-post-icon">
+          <a href="{% url 'create_post' %}">
+            <i class="fas fa-pen"></i>
+          </a>
+        </div>
+        <textarea rows="3" placeholder="Tạo bài đăng..."></textarea>
+      </div>
+
+      <!-- Hiển thị bài viết -->
+      {% for post in posts %}
+      <div class="post">
+        <div class="user">
+          <img src="{{ post.user.avatar_url|default:'#' }}" alt="Avatar">
+          <div class="username">{{  post.user.username }}</div>
+        </div>
+
+        <div class="text">
+          {{ post.title }}
+          {% if post.avatar_url %}
+          <img class="content-img" src="{{ post.avatar_url }}" alt="Post Image">
+          {% endif %}
+        </div>
+
+        <div class="post-actions">
+         <button class="like-btn" onclick="toggleLike(this)" data-post-id="{{ post.id }}">
+            <i class="fas fa-heart" style="color: red;"></i>
+            <div class="like-count">{{ post.like_set.count }}</div>
+
+         </button>
+          <button class="comment-btn" onclick="toggleComment(this)">
+            <i class="far fa-comment"></i> Bình luận
+          </button>
+        </div>
+
+        
+        <!-- Form bình luận (ẩn ban đầu) -->
+        <div class="comment-input" style="display: none;">
+          <div class="d-flex align-items-center mb-3">
+            <img src="{{ request.user.avatar_url|default:'#' }}" alt="Avatar" class="me-2" width="50" height="50"
+              style="border-radius: 50%; object-fit: cover;">
+          </div>
+          <form method="post" action="{% url 'add_comment' post.id %}">
+            {% csrf_token %}
+            <div class="input-wrapper">
+              <textarea name="content" class="comment-box" placeholder="Viết bình luận..." required></textarea>
+              <button type="submit" class="send-icon"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Danh sách bình luận -->
+        <div class="comments-list">
+          {% for comment in post.comments.all %}
+          <div class="d-flex align-items-center mb-2" style="width: 100%;">
+
+            <!-- Nội dung bình luận -->
+            <div class="d-flex flex-column"
+              style="background-color: #f0f2f5; padding: 10px 14px; border-radius: 18px; flex-grow: 1; margin-top: 10px;">
+              <div class="d-flex align-items-center mb-1">
+                <strong style="font-size: 14px; margin-right: 6px;">{{ comment.user.username }}</strong>
+                {% if comment.user.id == post.author.id %}
+                <span style="color: #1877f2; font-size: 12px;">Tác giả</span>
+                {% endif %}
+              </div>
+              <div style="font-size: 15px;">{{ comment.content }}</div>
+              <div style="font-size: 12px; color: #65676b; margin-top: 5px;">
+                {{ comment.created_at|timesince }} trước ·
+                <a href="#" style="text-decoration: none; color: #65676b; font-weight: bold;">Thích</a> ·
+                <a href="#" style="text-decoration: none; color: #65676b; font-weight: bold;">Phản hồi</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function toggleLike(btn) {
+    const postId = btn.getAttribute('data-post-id');
+    $.ajax({
+      url: '/toggle-like/',
+      type: 'POST',
+      data: {
+        'post_id': postId,
+        'csrfmiddlewaretoken': '{{ csrf_token }}'
+      },
+      success: function (response) {
+        const icon = btn.querySelector('i');
+        const countSpan = btn.querySelector('.like-count');
+        if (response.liked) {
+          icon.classList.remove('far');
+          icon.classList.add('fas');
+        } else {
+          icon.classList.remove('fas');
+          icon.classList.add('far');
+        }
+        countSpan.textContent = response.like_count;
+      }
+    });
+  }
+</script>
+
+</body>
+
+</html>

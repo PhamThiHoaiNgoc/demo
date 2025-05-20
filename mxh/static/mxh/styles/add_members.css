@@ -1,0 +1,112 @@
+/* Làm mờ nền và căn giữa */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Hộp modal */
+.modal {
+    background-color: #fff;
+    width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+/* Buttons */
+.cancel-btn,
+.create-btn {
+    color: #3b49df;
+    font-weight: 600;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* Input tên nhóm và tìm kiếm */
+.group-name-input,
+.search-input {
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Danh sách người dùng */
+.user-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.suggestion-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Item người dùng */
+.user-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.user-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.user-item .username {
+    flex-grow: 1;
+    font-weight: 500;
+}
+
+/* Ẩn checkbox mặc định */
+.user-item input[type="checkbox"] {
+    display: none;
+}
+
+/* Custom checkbox */
+.custom-checkmark {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #888;
+    display: inline-block;
+    position: relative;
+}
+
+.user-item input[type="checkbox"]:checked + .custom-checkmark {
+    background-color: #3b49df;
+    border-color: #3b49df;
+}

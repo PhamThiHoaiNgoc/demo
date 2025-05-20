@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách nhóm chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'mxh/styles/admin.css' %}">
+    <link rel="stylesheet" href="{% static 'mxh/styles/Chat_admin.css' %}">
+    <link rel="stylesheet" href="{% static 'mxh/styles/Home.css' %}">
+</head>
+
+<body>
+    {% include 'mxh/includes/Header_admin.html' %}
+
+    <!-- Main content -->
+    <div class="main">
+        <!-- Sidebar admin -->
+        {% include 'mxh/includes/Sidebar_admin.html' %}
+
+        <!-- Page content -->
+        <div class="content">
+            <h2>Danh sách tổng quan nhóm chat</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên nhóm</th>
+                        <th>Trưởng nhóm</th>
+                        <th>Số thành viên</th>
+                        <th>Ngày tạo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Giao lưu, chia sẻ</td>
+                        <td>Nhân</td>
+                        <td>4</td>
+                        <td>01/10/2024</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

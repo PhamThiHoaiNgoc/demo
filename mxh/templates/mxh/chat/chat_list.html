@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{% static 'mxh/styles/chat_list.css' %}">
+    <link rel="stylesheet" href="{% static 'mxh/styles/Home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+{% include 'mxh/includes/Header.html' %}
+<div class="main">
+    {% include 'mxh/includes/Sidebar.html' %}
+    <div class="content">
+        <div class="chat-container">
+
+            <div class="chat-sidebar">
+            <div class="chat-tabs">
+                <a href="{% url 'chat' %}">
+                    <button class="btn-chat">Đoạn chat</button>
+                </a>
+                <a href="{% url 'group_chat_list' %}">
+                    <button class="btn-group active">Nhóm</button>
+                </a>
+            </div>
+            <ul class="chat-list">
+                {% for chat, other in chat_list %}
+                <li>
+                    <a href="{% url 'chat_room' chat.id %}" style="text-decoration: none;">
+                        <div class="chat-item">
+                            <img src="{{other.avatar_url }}" alt="Avatar" />
+                            <div class="chat-item-content">
+                                <strong>{{ other.username }}</strong>
+                            </div>
+                            <div class="chat-time">
+                                {{ chat.privatemessage_set.last.sent_at|date:"H:i" }}
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Nội dung bên phải -->
+        <div class="chat-content">
+            <div class="welcome-box">
+                <img src="https://tenten.vn/tin-tuc/wp-content/uploads/2022/04/0-6.png" alt="Welcome image">
+                <h2>Chào mừng đến với <strong>Lotteria</strong>!!</h2>
+                <p>Hãy chọn đoạn chat để bắt đầu trò chuyện</p>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

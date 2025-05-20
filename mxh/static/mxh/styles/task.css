@@ -1,0 +1,290 @@
+/* === Nút Trên Cùng === */
+.header-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+.btn, .add-task-button, .assign-task-btn, .submit-btn, .cancel-btn {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-assign { background-color: #f05b4f; color: white; }
+.btn-todo { background-color: #f0f0f0; color: #333; }
+.add-task-button { background-color: #4CAF50; color: white; }
+
+/* === Tabs === */
+.task-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+}
+.task-tabs .tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 8px 8px 0 0;
+    transition: background-color 0.3s;
+}
+.task-tabs .tab.active {
+    background-color: #e57373;
+    color: white;
+}
+.task-tabs .tab:hover {
+    background-color: #e0e0e0;
+}
+
+/* === Danh sách Task chung === */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+}
+.task-list.active {
+    display: block;
+}
+
+/* === Item Task === */
+.task-item {
+  position: relative;
+  padding-top: 25px; /* giữ cho phần thời gian trên cùng */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #fff;
+
+  display: flex;
+  align-items: center; /* căn giữa theo chiều dọc */
+  gap: 15px;
+}
+.task-item.completed { border: 2px solid #3085f4; }
+.task-item:hover { background-color: #f8faff; }
+
+.task-checkbox, .todo-checkbox {
+    margin-right: 12px;
+    transform: scale(1.2);
+}
+
+/* === Thông tin task === */
+.task-info {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    font-size: 14px;
+}
+.avatar, .assignee-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.assignee-avatar { width: 30px; height: 30px; }
+
+.task-title, .task-details .task-name {
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+.task-details .name, .assignee-name {
+    font-weight: bold;
+}
+
+.task-date {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 600;
+  background-color: #f0f0f0;
+  padding: 3px 6px;
+  border-radius: 3px;
+  user-select: none;
+  white-space: nowrap;
+}
+.task-date.right {
+    text-align: right;
+    font-size: 0.8em;
+    color: #757575;
+}
+
+/* === Trạng thái Task === */
+.task-status {
+    font-size: 0.8em;
+}
+.task-status.pending { color: #ffa000; }
+.task-status.accepted, .task-status.completed { color: #43a047; }
+
+/* === Ảnh trong task === */
+.task-image {
+    max-width: 50px;
+    max-height: 50px;
+    margin-top: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.image-upload { margin-top: 5px; }
+.image-preview {
+    margin-top: 10px;
+    max-width: 200px;
+    max-height: 200px;
+}
+.image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 4px;
+}
+
+/* === Todo List === */
+.todo-input-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+.todo-input {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: #e57373;
+    border-radius: 4px 0 0 4px;
+    padding: 10px 15px;
+    color: white;
+}
+.todo-input i { margin-right: 10px; }
+.todo-input input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 16px;
+}
+.todo-input input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.add-todo-btn {
+    background-color: #66bb6a;
+    color: white;
+    border-radius: 0 4px 4px 0;
+    border: none;
+    padding: 0 15px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.todo-list {
+    background-color: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.todo-text {
+    flex: 1;
+    font-size: 16px;
+}
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: #757575;
+}
+.todo-delete {
+    color: #e57373;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* === Form trong giao việc === */
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+.required { color: red; }
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+.submit-btn { background-color: #90caf9; color: white; }
+.cancel-btn { background-color: #e0e0e0; color: black; }
+
+/* === Xác nhận xóa === */
+.delete-confirmation {
+    background-color: #ffebee;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: center;
+}
+#deleteTodoName { font-weight: bold; }
+
+/* Nút xóa */
+.delete-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    margin-left: auto; /* đẩy nút xóa sang cạnh phải */
+    height: 36px;
+    width: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.delete-btn:hover {
+    background-color: #f8d7da;
+}
+.delete-btn i {
+    color: #dc3545;
+    font-size: 18px;
+    transition: color 0.2s ease;
+}
+.btn-secondary {
+  background-color: #3498db; /* xanh dương nhẹ */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px 5px 5px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #2980b9; /* xanh đậm hơn */
+}
+
+
+
+
