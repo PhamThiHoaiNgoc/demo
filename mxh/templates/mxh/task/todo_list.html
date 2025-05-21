@@ -2,46 +2,58 @@
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Todo List</title>
-    <link rel="stylesheet" href="{% static 'mxh/styles/Home.css' %}">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="{% static 'mxh/styles/Todolist.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'mxh/styles/Home.css' %}" />
+    <link rel="stylesheet" href="{% static 'mxh/styles/Todolist.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="{% static 'mxh/script/todo.js' %}" defer></script>
 </head>
 <body>
     {% include 'mxh/includes/header.html' %}
     <div class="main">
         {% include 'mxh/includes/sidebar.html' %}
         <div class="content">
+            <!-- Nút Quay lại -->
+            <a href="{% url 'task_view' %}" class="back-btn" style="display: inline-flex; align-items: center; margin-bottom: 15px; color: #3498db; text-decoration: none; font-weight: 600;">
+                <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Quay lại danh sách công việc
+            </a>
+
             <h2>Todo List</h2>
 
-            <!-- Form tạo công việc mới -->
+            <!-- Form thêm task -->
             <form method="POST" class="input-group">
                 {% csrf_token %}
-                <input type="text" name="task_name" placeholder="Nhập công việc cần làm"   required>
+                <input type="text" name="task_name" placeholder="Nhập công việc cần làm" required>
+                <select name="color">
+                    {% for code, name in color_choices %}
+                        <option value="{{ code }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
                 <button type="submit">+</button>
             </form>
 
-            <!-- Danh sách công việc -->
             <ul class="task-list">
                 {% for task in tasks %}
-                    <li>
-                        <div class="task-left">
-                            <form method="POST" action="{% url 'toggle_status' task.id %}">
-                                {% csrf_token %}
+                    <li style="--task-color: {{ task.color }};">
+                        <form method="POST" action="{% url 'toggle_status' task.id %}" autocomplete="off">
+                            {% csrf_token %}
+                            <label>
                                 <input type="checkbox" onchange="this.form.submit()" {% if task.status == 'completed' %}checked{% endif %}>
-                            </form>
-                            <span class="{% if task.status == 'completed' %}completed{% endif %}">
-                                {{ task.task_name }}
-                            </span>
-                        </div>
+                                <span class="{% if task.status == 'completed' %}completed{% endif %}">{{ task.task_name }}</span>
+                            </label>
+                        </form>
+
+
                         <form method="POST" action="{% url 'delete_todo' task.id %}">
                             {% csrf_token %}
-                            <button class="btn-delete">🗑</button>
+                            <button class="btn-delete" type="submit" title="Xóa công việc">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                         </form>
                     </li>
                 {% empty %}
-                    <li class="text-center">Chưa có công việc nào!</li>
+                    <li>Chưa có công việc nào!</li>
                 {% endfor %}
             </ul>
         </div>

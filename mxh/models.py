@@ -110,13 +110,25 @@ class TaskAssignment(models.Model):
     class Meta:
         unique_together = ('task', 'user')
 
+
 class TodoList(models.Model):
     STATUS_CHOICES = [('pending', 'Pending'), ('completed', 'Completed')]
+    COLOR_CHOICES = [
+        ('#ffc107', 'Vàng'),
+        ('#28a745', 'Xanh lá'),
+        ('#17a2b8', 'Xanh dương'),
+        ('#dc3545', 'Đỏ'),
+        ('#6f42c1', 'Tím'),
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     task_name = models.CharField(max_length=255)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     due_date = models.DateField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    color = models.CharField(max_length=7, choices=COLOR_CHOICES, default='#ffc107')
+
+    class Meta:
+        ordering = ['-created_at']
 
 class Notification(models.Model):
 

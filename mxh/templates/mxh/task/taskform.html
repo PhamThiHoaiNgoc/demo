@@ -1,20 +1,71 @@
+<!--<!DOCTYPE html>-->
+<!--{% load static %}-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link rel="stylesheet" href="{% static 'mxh/styles/taskform.css' %}">-->
+<!--    <title>Giao Việc</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="form-container">-->
+<!--        <span class="close-btn" onclick="window.location.href='/task';">&times;</span>-->
+<!--        <form method="post" enctype="multipart/form-data">-->
+<!--            {% csrf_token %}-->
+<!--            {{ form.as_p }}-->
+<!--            <button type="submit">Giao việc</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'mxh/styles/taskform.css' %}">
     <title>Giao Việc</title>
+    <link rel="stylesheet" href="{% static 'mxh/styles/taskform.css' %}">
 </head>
 <body>
     <div class="form-container">
         <span class="close-btn" onclick="window.location.href='/task';">&times;</span>
+
         <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Giao việc</button>
-        </form>
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label>Tiêu đề</label>
+        {{ form.task_name }}
+    </div>
+
+    <div class="form-group">
+        <label>Mô tả chi tiết</label>
+        {{ form.description }}
+    </div>
+
+    <div class="form-group">
+        <label>Giao cho</label>
+        {{ form.users }}
+    </div>
+
+    <div class="form-group">
+        <label>Thời hạn</label>
+        {{ form.deadline }}
+    </div>
+
+    <div class="form-group">
+        <label>Hình ảnh đính kèm</label>
+        {{ form.image }}
+    </div>
+
+    <div class="form-group">
+        <label>Tài liệu liên quan</label>
+        {{ form.document }}
+    </div>
+
+    <button type="submit">Giao việc</button>
+</form>
+
     </div>
 </body>
 </html>

@@ -54,12 +54,17 @@ urlpatterns = [
 
     path('task/create/', views.create_task_view, name='task_create'),
     path('tasks/change-status/<int:task_id>/', views.change_task_status, name='change_task_status'),
-    path('task/create_todo', views.create_todo, name='create_todo'),
-    path('task/todo_list', views.todo_list, name='todo_list'),
-    path('toggle/<int:task_id>/', views.toggle_status, name='toggle_status'),
-    path('task/delete/<int:task_id>/', views.delete_task, name='delete_task'),
+    # path('task/create_todo', views.create_todo, name='create_todo'),
+    # path('task/todo_list', views.todo_list, name='todo_list'),
+    # path('toggle/<int:task_id>/', views.toggle_status, name='toggle_status'),
+    path('task/assigned/delete/<int:task_id>/', views.delete_task, name='delete_task'),
 
-    path('delete/<int:task_id>/', views.delete_todo, name='delete_todo'),
+    path('task/todo/', views.todo_list, name='todo_list'),
+    path('task/toggle/<int:task_id>/', views.toggle_status, name='toggle_status'),
+    path('task/todo/delete/<int:task_id>/', views.delete_todo, name='delete_todo'),
+
+
+
     path('task/proposal/create/', create_proposal, name='create_proposal'),
     path('task/proposal/my/', my_proposals, name='proposal_list'),
     path('task/proposal/incoming/', incoming_proposals, name='incoming_proposals'),

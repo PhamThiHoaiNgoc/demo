@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.template.loader import select_template
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
 from . import models
 from .context_processors import get_unread_count
@@ -667,31 +668,20 @@ def change_task_status(request, task_id):
             task.save()
 
     return redirect('task_view')
-
-@login_required
-def create_todo(request):
-    if request.method == 'POST':
-        task_name = request.POST.get('task_name')
-        if task_name:
-            TodoList.objects.create(
-                user=request.user,
-                task_name=task_name,
-                status='pending'
-            )
-        return redirect('todo_list')
-
-    return render(request, 'mxh/task/todo_list.html')
-
 @login_required
 def todo_list(request):
     if request.method == 'POST':
         task_name = request.POST.get('task_name')
+        color = request.POST.get('color', '#ffc107')
         if task_name:
-            TodoList.objects.create(user=request.user, task_name=task_name)
+            TodoList.objects.create(user=request.user, task_name=task_name, color=color)
         return redirect('todo_list')
 
     tasks = TodoList.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'mxh/task/todo_list.html', {'tasks': tasks})
+    return render(request, 'mxh/task/todo_list.html', {
+        'tasks': tasks,
+        'color_choices': TodoList.COLOR_CHOICES,
+    })
 
 @login_required
 def toggle_status(request, task_id):
@@ -705,6 +695,8 @@ def delete_todo(request, task_id):
     task = get_object_or_404(TodoList, id=task_id, user=request.user)
     task.delete()
     return redirect('todo_list')
+
+
 
 @login_required
 def create_proposal(request):
@@ -762,14 +754,15 @@ def create_task_from_proposal(request, proposal_id):
             task = form.save(commit=False)
             task.assigned_by = request.user
 
-
-            if not task.image:
+            # Gán ảnh và tài liệu từ đề xuất nếu chưa có trong form
+            if not task.image and proposal.image:
                 task.image = proposal.image
-            if not task.document:
+            if not task.document and proposal.document:
                 task.document = proposal.document
 
             task.save()
 
+            # Giao task cho các user được chọn
             for user in form.cleaned_data.get('users', []):
                 TaskAssignment.objects.create(task=task, user=user)
 

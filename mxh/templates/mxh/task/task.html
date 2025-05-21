@@ -26,7 +26,7 @@
     <!-- Bên trái: Phân việc + To-do list -->
    <div class="left-buttons">
     <button class="btn btn-assign">Phân việc</button>
-    <button class="btn btn-todo" onclick="window.location.href='/task/create_todo';">To-do list</button>
+    <button class="btn btn-todo" onclick="window.location.href='/task/todo';">To-do list</button>
 
     {% if request.user.role == 'manager' %}
       <button class="btn btn-secondary" onclick="window.location.href='/task/proposal/create';">
